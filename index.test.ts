@@ -28,4 +28,11 @@ describe("CtrlC Challenge", () => {
       )
     ).toBe("the first Coding Challenge was string manipulation task");
   });
+  test("should remove command if it occurs at the start of string", () => {
+    expect(
+      challenge(
+        "[CTRL+X]a fluffy white cloud drifts [CTRL+V][CTRL+C] across the sky, [CTRL+V]"
+      )
+    ).toBe("a fluffy white cloud drifts across the sky,");
+  });
 });

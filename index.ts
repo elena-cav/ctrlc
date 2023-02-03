@@ -5,11 +5,19 @@ const ctrlCReg: RegExp = /.+(?=\[CTRL\+C\])/g;
 const ctrlXReg: RegExp = /.+(?=\[CTRL\+X\])/g;
 
 export default function challenge(input: string): string {
-  const copyString = (command: string, reg: RegExp): string | null =>
-    input.includes(command) ? input.match(reg)![0] : null;
+  const copyString = (
+    command: string,
+    reg: RegExp
+  ): RegExpMatchArray | null => {
+    return input.includes(command) && input ? input.match(reg) : null;
+  };
+  const preC: string | null = copyString(ctrlC, ctrlCReg)
+    ? copyString(ctrlC, ctrlCReg)![0]
+    : null;
 
-  const preC: string | null = copyString(ctrlC, ctrlCReg);
-  const preX: string | null = copyString(ctrlX, ctrlXReg);
+  const preX: string | null = copyString(ctrlX, ctrlXReg)
+    ? copyString(ctrlX, ctrlXReg)![0]
+    : null;
 
   const findFirstOccurrence = (command: string): boolean =>
     input.indexOf(ctrlV) < input.indexOf(command);
@@ -23,6 +31,8 @@ export default function challenge(input: string): string {
     .replace(preXToDelete ? preXToDelete : "", "")
     .replace(ctrlV, isCSecond || isXSecond ? "" : toPaste)
     .replace("  ", " ")
+    .replace(ctrlV, "")
     .trim();
   return replaced;
+  return "";
 }
