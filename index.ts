@@ -25,14 +25,29 @@ export default function challenge(input: string): string {
   const isXSecond: boolean = findFirstOccurrence(ctrlX);
   const preXToDelete: string | null = isXSecond ? "" : preX;
   const toPaste: string = preC ? preC : preX ? preX : "";
+
+  const count = (regex: RegExp) => (input.match(regex) || []).length;
+  const countCtrlV = count(/\[CTRL\+V\]/g);
+  const countCtrlX = count(/\[CTRL\+X\]/g);
+  const countCtrlC = count(/\[CTRL\+C\]/g);
+
   const replaced: string = input
+    .replace(
+      ctrlV,
+      (!preX && countCtrlX > 0) || (!preC && countCtrlC > 0) ? "" : ctrlV
+    )
     .replace(ctrlC, "")
     .replace(ctrlX, "")
     .replace(preXToDelete ? preXToDelete : "", "")
-    .replace(ctrlV, isCSecond || isXSecond ? "" : toPaste)
+    .replace(
+      ctrlV,
+      (isCSecond && countCtrlV < 2) || (isXSecond && countCtrlV < 2)
+        ? ""
+        : toPaste
+    )
     .replace("  ", " ")
     .replace(ctrlV, "")
+    .replace(ctrlX, "")
     .trim();
   return replaced;
-  return "";
 }

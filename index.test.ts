@@ -33,6 +33,8 @@ describe("CtrlC Challenge", () => {
       challenge(
         "[CTRL+X]a fluffy white cloud drifts [CTRL+V][CTRL+C] across the sky, [CTRL+V]"
       )
-    ).toBe("a fluffy white cloud drifts across the sky,");
+    ).toBe(
+      "a fluffy white cloud drifts across the sky, a fluffy white cloud drifts"
+    );
   });
 });
